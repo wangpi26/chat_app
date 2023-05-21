@@ -1,0 +1,7 @@
+{
+  "name": "chat-for-android",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
