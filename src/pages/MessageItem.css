@@ -1,0 +1,27 @@
+.message-item {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+  max-width: 80%;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.message-item.user {
+  background-color: #4ba4f3;
+  color: white;
+}
+
+.message-item.assistant {
+  background-color: #e6e6e6;
+}
+
+.message-item.system {
+  background-color: white;
+  color: #666;
+  font-style: italic;
+}
+
+.message-text {
+  margin: 0;
+}
