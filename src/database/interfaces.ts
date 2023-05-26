@@ -1,5 +1,5 @@
 export interface Message {
-  id: number;
+  id?: number;
   content: string;
   role: string;
   sessionId: number;
@@ -9,7 +9,7 @@ export interface Message {
 }
 
 export interface Session {
-  id: number;
+  id?: number;
   model: string;
   title: string;
 }

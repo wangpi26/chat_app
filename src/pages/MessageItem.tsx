@@ -1,6 +1,7 @@
 import React from "react";
-import { IonItem, IonLabel, IonButton } from "@ionic/react";
+import { IonItem, IonLabel, IonButton, IonIcon } from "@ionic/react";
 import "./MessageItem.css";
+import { createOutline } from "ionicons/icons";
 
 interface MessageItemProps {
 	messageId: string;
@@ -14,13 +15,15 @@ const MessageItem: React.FC<MessageItemProps> = ({
 	role,
 }) => {
 	return (
-		<IonItem>
-			<IonLabel>
+		<IonItem className={`message-item-${role}`} lines="none" >
+			<IonLabel className="message-item-label ion-text-wrap ion-float-left" >
 				<h2>{messageText}</h2>
 			</IonLabel>
-			<IonButton slot="end" onClick={() => console.log("Edit message")}>
-				Edit
-			</IonButton>
+			{role !== "system" && (
+				<IonButton fill="clear" slot="end" onClick={() => console.log("Edit message")}>
+					<IonIcon icon={createOutline}/>
+				</IonButton>
+			)}
 		</IonItem>
 	);
 };

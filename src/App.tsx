@@ -13,7 +13,6 @@ import { IonReactRouter } from "@ionic/react-router";
 import { construct, chatbox } from "ionicons/icons";
 import ChatList from "./pages/ChatList";
 import Prompt from "./pages/Prompt";
-
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 
@@ -32,37 +31,42 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import Chat from "./pages/Chat";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-	<IonApp>
-		<IonReactRouter>
-			<IonTabs>
-				<IonRouterOutlet>
-					<Route exact path="/chatlist">
-						<ChatList />
-					</Route>
-					<Route exact path="/prompt">
-						<Prompt />
-					</Route>
-					<Route exact path="/">
-						<Redirect to="/chatlist" />
-					</Route>
-				</IonRouterOutlet>
-				<IonTabBar slot="bottom">
-					<IonTabButton tab="聊天记录" href="/chatlist">
-						<IonIcon aria-hidden="true" icon={chatbox} />
-						<IonLabel>聊天记录</IonLabel>
-					</IonTabButton>
-					<IonTabButton tab="prompt" href="/prompt">
-						<IonIcon aria-hidden="true" icon={construct} />
-						<IonLabel>提示语</IonLabel>
-					</IonTabButton>
-				</IonTabBar>
-			</IonTabs>
-		</IonReactRouter>
-	</IonApp>
-);
+const App: React.FC = () => {
+	
+	return (
+		<IonApp>
+			<IonReactRouter>
+				<IonTabs>
+					<IonRouterOutlet>
+						<Route exact path="/chatlist">
+							<ChatList />
+						</Route>
+						<Route exact path="/prompt">
+							<Prompt />
+						</Route>
+						<Route exact path="/">
+							<Redirect to="/chatlist" />
+						</Route>
+						<Route path="/chat/:id" component={Chat}></Route>
+					</IonRouterOutlet>
+					<IonTabBar slot="bottom">
+						<IonTabButton tab="聊天记录" href="/chatlist">
+							<IonIcon aria-hidden="true" icon={chatbox} />
+							<IonLabel>聊天记录</IonLabel>
+						</IonTabButton>
+						<IonTabButton tab="prompt" href="/prompt">
+							<IonIcon aria-hidden="true" icon={construct} />
+							<IonLabel>提示语</IonLabel>
+						</IonTabButton>
+					</IonTabBar>
+				</IonTabs>
+			</IonReactRouter>
+		</IonApp>
+	);
+};
 
 export default App;

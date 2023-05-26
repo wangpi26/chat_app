@@ -11,16 +11,19 @@ import {
 	IonButton,
 	IonIcon,
 	IonFooter,
+	IonFab,
+	IonFabButton,
 } from "@ionic/react";
-import { settings } from "ionicons/icons";
+import {settings } from "ionicons/icons";
 import "./ChatList.css";
-import { createOutline, trashOutline } from "ionicons/icons";
-import { getAllSessions ,insertSession } from "../database/sessionDb";
+import { createOutline, trashOutline, add } from "ionicons/icons";
+import { getAllSessions, insertSession } from "../database/sessionDb";
 import { Session } from "../database/interfaces";
 import { useEffect, useState } from "react";
-
+import { useHistory } from "react-router-dom";
 const ChatList: React.FC = () => {
 	const [chats, setChats] = useState<Session[]>([]);
+	const history = useHistory();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -30,27 +33,31 @@ const ChatList: React.FC = () => {
 
 		fetchData();
 	}, []);
-	
+
 	const handleCreateNewChat = async () => {
-    console.log('创建新的聊天'); // Chinese log: 创建新的聊天
+		console.log("创建新的聊天"); // Chinese log: 创建新的聊天
 
-    const newSession: Session = {
-      id: 0,
-      model: 'GPT-3',
-      title: '新聊天', // You may want to replace this with a dynamic title
-    };
+		const newSession: Session = {
+			model: "GPT-3",
+			title: "新聊天", // You may want to replace this with a dynamic title
+		};
 
-    try {
-      const sessionId = await insertSession(newSession);
-      console.log('成功创建新的聊天，ID:', sessionId); // Chinese log: 成功创建新的聊天，ID:
+		try {
+			const sessionId = await insertSession(newSession);
+			console.log("成功创建新的聊天，ID:", sessionId); // Chinese log: 成功创建新的聊天，ID:
 
-      // Update the chat list with the new chat
-      setChats((prevChats) => [...prevChats, { ...newSession, id: sessionId }]);
-    } catch (error) {
-      console.error('创建新聊天时出错:', error); // Chinese log: 创建新聊天时出错:
-    }
-  };
+			// Update the chat list with the new chat
+			setChats((prevChats) => [...prevChats, { ...newSession, id: sessionId }]);
+			history.push(`/chat/${sessionId}`);
+		} catch (error) {
+			console.error("创建新聊天时出错:", error); // Chinese log: 创建新聊天时出错:
+		}
+	};
 
+	const handleChatItemClick = (chatId: number) => {
+		// 导航到聊天详情页面
+		history.push(`/chat/${chatId}`);
+	};
 
 	return (
 		<IonPage>
@@ -66,9 +73,11 @@ const ChatList: React.FC = () => {
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonList>
-					{chats.length}
 					{chats.map((chat) => (
-						<IonItem key={chat.id}>
+						<IonItem
+							key={chat.id}
+							onClick={() => handleChatItemClick(chat.id!)}
+							button detail>
 							<IonLabel>{chat.title}</IonLabel>
 							<IonButtons slot="end">
 								<IonButton color="primary" fill="clear">
@@ -82,15 +91,14 @@ const ChatList: React.FC = () => {
 					))}
 				</IonList>
 			</IonContent>
-			<IonFooter>
-				<IonButton
-					expand="full"
+			<IonFab slot="fixed" vertical="bottom" horizontal="end">
+				<IonFabButton
 					color="primary"
 					onClick={handleCreateNewChat}
 					className="ion-margin">
-					Create New Chat
-				</IonButton>
-			</IonFooter>
+					<IonIcon icon={add}></IonIcon>
+				</IonFabButton>
+			</IonFab>
 		</IonPage>
 	);
 };

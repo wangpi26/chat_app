@@ -28,7 +28,7 @@ export const insertSession = async (session: Session): Promise<number> => {
   // Save the new session to the storage
   await storage.set(`session_${newSession.id}`, newSession);
 
-  return newSession.id;
+  return newSession.id!;
 };
 
 const getNextSessionId = async (): Promise<number> => {
@@ -39,7 +39,7 @@ const getNextSessionId = async (): Promise<number> => {
   }
 
   const maxId = sessions.reduce(
-    (maxId, currentSession) => Math.max(maxId, currentSession.id),
+    (maxId, currentSession) => Math.max(maxId, currentSession.id!),
     0
   );
 
